@@ -1,0 +1,1152 @@
+
+        €      € €       €   €€€€       €     V. 1.00 - (C) 1994.
+        €      €  €     €   €          € €    By Arnon Zamir,
+        €      €   €   €    €   €     €€€€€    and the ASPHYXIA group.
+        €      €    € €     €    €   €     €   Artwork by Magic Intros.
+         €€€€€€      €       €€€€   €       €
+
+Version - 1.00
+Release date - 1/12/1994.
+
+  Disclaimer
+  ----------
+I assume no responsibility whatsoever for any effect that this software, the
+information contained in it or the use thereof has on you, your sanity,
+computer, spouse, children, pets or anything else related to you or your
+existence. No warranty is provided nor implied with this information.
+
+But anyway, keep your dog aside.
+
+****************
+Borland Pascal 7.0 with Objects, Turbo Pascal, Turbo Pascal with Objects
+and Borland are Trademarks and Registered Trademarks of Borland International.
+SoundBlaster is a Trademark of Creative Labs Inc. GIF is a trademark of
+Compuserve Inc. FontMania is a trademark of Rexxcom Systems. Autodesk Animator
+is a trademarks of Autodesk Inc. 80386 is a registered trademark of Intel
+Corporation. IBM is a registered trademark of International Business Machines
+Corp. All other products are trademarks or registered trademarks of their
+respective holders.
+****************
+
+  Boolshit
+  --------
+UVGA is a cardware, no fee is charged for using, and no-one is alowded to
+take money for it's distributing. (Not even the diskette value, ok?)
+Copy it freely, in it's original package.
+To take out individual files, contact me for permition.
+And, the big question: What the hell is CardWare?
+Well, you may use it as freely as you want, but Send me a postcard, or
+a letter please, to this address:
+    In English                         :öâòÅíÅ ÖÄ
+
+   Arnon Zamir                          òâéÜ èÖêòÄ
+   Moshav Be'eortiam                   çââöÖòÄÅ ÅôÖé
+   42850                                   42850
+   Israel
+if you don't see the right part, it's because your computer has no Hebrew
+ASCII.
+No need to send money (but if you want, sure, go ahead!).
+You can also contact me by E-Mailing Arnon Zamir on UltiNet's I_PRG.Pascal,
+or netmail to Fido 2:403/403.6
+Another way - call me, +972-9-686002. (After school hours :-) )
+Use these, once you start using UVGA (if..) and for every little bug or
+problem you find or have - LET ME KNOW!!!
+-------
+Please! - Don't use UVGA without letting me know!
+-------
+Geez, I hate this stuff.
+
+  Introduction
+  ------------
+So, what is UVGA? UVGA is a kit for developing games and intros,
+on the VGA screen using Borland Pascal. The kit provides units to handle
+basic VGA, in the mode of 320 X 200 X 256c, virtual screens, palettes,
+sprites (any size of), fonts, mouse support, resource files (to put
+everything is one BIG file), PCX and RAW support, buffers unit - for fast
+file access, an FX unit, and a keyboard unit - to detect EVERY keypress,
+or multiple keys.
+
+- UVGA was written for Borland Pascal 7.0 with objects and it not supposed to
+  work with earlier versions. Also, It was tested on my 386 with DOS
+  version 6.00. I don't assume any responsibility it'll work with other
+  combinations of CPU's nor DOS versions. (But I believe it will.)
+- for the next version(s) of UVGA (optimist as always. Such a version
+  depends in the responding I'll get) I plane to add:
+  - SoundBlaster support. CMF nor VOC as beginning.
+  - GIF support, maybe BMP.
+  - FLI support.
+  - Compression in the Resources.
+  - Smart sprites (allow clipping).
+  - Faster working...
+  - Anything I'll come to think about. If you want anything, just say.
+
+
+The kit includes examples to most of the things. Run POPCORN.EXE for an
+example that shows lots of features working together. The kit is partially
+objects oriented, to let you create your own creatures.
+
+   Greetings:
+   ==========
+UVGA is based on the ASPHYXIA VGA toturs, by Denthor of Asphyxia (Grant
+Smith) with permission of him. Asphyxia is a South African demo group.
+To contact with him, or the group use one of the followings:
+        1) Write a message to Grant Smith/Denthor/Asphyxia in private mail
+                  on the ASPHYXIA BBS (it's in South Africa).
+        2) Write to Denthor, EzE, Goth, Fubar or Nobody on Connectix.
+        3) Write to :  Grant Smith
+                       P.O.Box 270 Kloof
+                       3640
+                       Natal
+                       South Africa
+        4) Call Grant Smith at (031) 73 2129 (leave a message if you
+           call during varsity). Call +27-31-73-2129 if you call
+           from outside South Africa. (It's YOUR phone bill ;-))
+        5) Write to smith9@batis.bis.und.ac.za in E-Mail (Internet).
+The group wrote the real hard part (90% of the assembler), and I wrote the
+others, meaning Keys, resource, sprites engine, fonts etc.
+
+And ofcourse, a HUGE greet and a big thanks for the MAGIC INTROS group, for
+creating such great pictures. Magic Intros are:
+   - Shlomi Avtalyon   -   The greatest artist worker.
+   - Shmulik Avtalyon  -   Magic coder.
+   - Dean Moav         -   Distributor, Communication man.
+* To contact the group call: +972-3-5332204
+
+
+ - The UPCX unit Includes portions of SHOW_PCX.
+                 Used by permission of ZSoft Corporation.
+
+   So, How do we start?
+
+Ok. Let's start.
+
+1. Basic VGA handling.
+-----------------------
+=========================================================================
+GENERAL NOTE: Before starting, I want to say something. In UVGA, most of
+              the procedures that loads files, are actually functions,
+              returning error codes. You can use them as procedures, by
+              adding {$X+} at the beginning of your program, or tag the
+---------     "Extended Syntax" box in Options\Compiler menu.
+Lets' go.================================================================
+---------
+UVGA provides some procedures for basical VGA stuff, and is based
+on virtual screens. So you ask, "What are virtual screens?", and I answer:
+Virtual screens are just like the VGA screen, but they are not seen. You
+can copy a virtual screen to the VGA screen, or copy parts of it.
+But first, the beginning: to move to the VGA screen, use: SetVGA, to go back
+to text mode use SetText, or use CRT's TextMode routine. Let's go now.
+
+UVGA uses virtual screens just the same as the normal one.
+Most of the procedures of UVGA include, as the last parameter, a word, to
+say where should this procedure act. There is a constant called VGA, that
+determines the real VGA screen. For example, the most basic procedure of any
+graphix toolkit: PutPixel.
+In UVGA it'll be:
+  procedure PutPixel(X, Y : Integer; Color : Byte; Where : Word);
+So, for example, to put a pixel in color 15, in 100, 100 on the VGA screen,
+you would command: PutPixel(100, 100, 15, VGA);
+The Where parameter, is the screen's segment. ($A000 for the real VGA). To
+create a virtual screen, you can do one of the followings:
+
+1, Create by yourself, by doing:
+
+uses UVGA;
+var
+   MyVScr : PScreen;
+   MyScrAddr : Word;
+begin
+   SetVGA; {Not neccery when not writing to it...}
+   GetMem(MyVScr, VGAArea);  {Get memory for it, VGAArea is a
+                              constant of UVGA.}
+   MyScrAddr := Seg(MyVScr^);  {Set MyScrAddr to it's segment.}
+   PutPixel(100, 100, 15, MyScrAddr);  {Nothing is seen on the real VGA.}
+   FreeMem(MyVScr, VGAArea);  {Free back the memory.}
+   SetText;
+end.
+
+2, Use the UVGA virtual screen:
+
+uses UVGA;
+begin
+   SetVGA;
+   InitVScreen;  {Initialize the virtual screen}
+   PutPixel(100, 100, 15, VAddr); {VAddr is it's address.}
+   DoneVScreen;  {Release the memory.}
+   SetText;
+end.
+
+Now, you wonder: "What is it good for?"
+it's good, when you want to draw something, and you don't want the user to
+see the drawing process. So you draw on a virtual screen, and copy to the
+real one when ready. Ok, don't cry, I'll explain how.
+There is the magic procedure:
+   procedure CopyScreen(Source, Dest:Word);
+for example, after putting the pixel, command:
+   CopyScreen(VAddr, VGA);
+and SHAZAM! You've got your pixel. Ofcourse, if you draw something more
+complicated than a pixel, you might want the user to watch a picture or some
+effect while your drawing.
+
+Now, lets overview some basical routines.
+
+   procedure Cls(Where : Word);
+This procedure clears the screen to color 0 (normally black. Colors and
+palettes will be explained later.)
+
+   procedure ColorCls(Color : Byte; Where : Word);
+This procedure clears the screen (Where) to the color specified as Color.
+
+   procedure PutPixel(X, Y : Integer; C : Byte; Where : Word);
+You already know this one. Put a pixel at X, Y, in color C, on screen Where.
+
+   function  GetPixel(X, Y : Integer; Where : Word) : Byte;
+This function returns the Pixel's color.  For example, after running the above
+program, GetPixel(100, 100, VAddr) will be 15.
+
+   procedure Line(X1, Y1, X2, Y2 : Integer; Where : Word);
+Yeah, just as you think. Draw a line, from X1, Y1 to X2, Y2 on Where.
+And - let's stop for a minute for an explanation. The color of the line
+is set by a UVGA variable called CurrentColor. By default, CurrentColor is
+15. Most of the procedures in UVGA uses it, and does not require a color
+parameter.
+
+   procedure HLine(X1, Y1, Len : Integer; Where : Word);
+Draws a horizontal line, starting at X1, Y1, with the length of Len.
+Again, screen Where, and color CurrentColor are used.
+
+   procedure VLine(X1, Y1, Len : Integer; Where : Word);
+Draws a vertical line, just like HLine, only vertical.
+
+   procedure Box(X1, Y1, X2, Y2 : Integer; Where : Word);
+Draws a box. Top-left corner at X1, Y1 and low right corner at X2, Y2.
+
+   procedure FillBox(X1, Y1, X2, Y2 : Integer; Where : Word);
+Same as the above, only the box is filled with CurrentColor.
+
+   procedure Circle (Xc, Yc, Rad : Integer; Where : Word);
+Draws a circle. Center at Xc, Yc and radius Rad.
+
+- Some more advanced procedures:
+
+   procedure ScrollLeft(X1, Y1, X2, Y2 : Integer; Where : Word);
+This procedures scrolls to the left the block at X1, Y1 (top-left) to
+X2, Y2 (low-right) at screen Where. Great for scrollers.
+
+   procedure ScrollRight(X1, Y1, X2, Y2 : Integer; Where : Word);
+Same, only scrolls to the right.
+
+   procedure ScrollUp(X1, Y1, X2, Y2 : Integer; Where : Word);
+Scroll up,
+
+   procedure ScrollDown(X1, Y1, X2, Y2 : Integer; Where : Word);
+And down.
+
+- Virtual screens controlling routines:
+
+   procedure InitVScreen;
+Initialize the default virtual screen of UVGA, and set it's address to VAddr.
+
+   procedure CopyScreen(Source, Dest : Word);
+Copy the screen at Source to the screen at Dest.
+
+   procedure FlipScreens(Addr1, Addr2 : Word);
+Flip the screens. Addr1 has now Addr2, and vice verse.
+
+   procedure PartCopy (X1, Y1, X2, Y2, Source, Dest : Word);
+Copy only a block from Source to Dest.
+
+   procedure DoneVScreen;
+Shut down the default virtual screen.
+
+NOTE: Don't EVER use virtual screen\s, without initializing them first,
+      by using one of the methods mentioned before. Results will be most
+      of the time stucking the computer, and sometimes when BP didn't close
+      the file working on, It's will be erased. (I lost big parts of UVGA
+      this way, and had to write them again... :-( ).
+
+2. Palettes. (with out colors, world would be a MonoChrome.)
+------------
+Do you know what palettes are? Here's a short overview.
+a palette is the list of colors the computer can display all at once on
+the screen. In the VGA mode UVGA is working on, 256 colors can be displayed,
+so the palette has 256 colors in it.
+Each one of the VGA's colors is made by 3 values of Red, Green, and Blue
+(RGB). These can be from 0..63, so there are.. well, a *BIG* number of
+combinations. When all (R, G and B) are 0, the color is black. When all of
+them are 63, it's pure nicey white.
+UVGA includes a palette type: TPalette. This is used to set, get or change
+the palette of the VGA.
+Here are the palette handling procedures:
+
+   procedure GetPalColor(C : Byte; var R, G, B : Byte);
+This procedure returns the RGB values of color C in the current palette,
+into R, G and B.
+
+   procedure GetCurrentPalette(var P : TPalette);
+This one returns the whole palette, into P.
+
+   procedure GetPartPalette(var P : TPalette; PalStart, PalEnd : Byte);
+and this one returns into P only the part starting at PalStart color,
+and ending at PalEnd.
+
+   procedure SetPalColor(C, R, G, B : Byte);
+This sets the VGA palette color C, to the values of R, G and B.
+
+   procedure SetCurrentPalette(P : TPalette);
+This sets the palette to P.
+
+   procedure SetPartPalette(P : TPalette; PalStart, PalEnd : Byte);
+and, as you can guess, this will set only Part of P.
+
+   procedure BlackOut;
+Set, at once, the whole palette to black. You can draw, but nothing will be
+seen on the screen.
+
+   procedure FadeOut;
+Fades out, until all is black. A nice effect for ending a program.
+
+   procedure FadeOutStep;
+One step of fade out. Use this to fade out, while on the screen things still
+changes. UVGA has a variable, FadeDone, of type Boolean. When it's true, the
+fade is done. DON'T forget to set it back to false after your'e done.
+
+   procedure FadeIn(P : TPalette);
+This one fades into palette P. With blackout, you can create nice FX.
+
+   procedure FadeInStep(P : TPalette);
+Yeah, just what you think it is. Uses FadeDone as well.
+
+   procedure CycleF(var P : TPalette; CStart, CEnd : Byte);
+Cycle the palette is one of the easiest and nicest effects. Move the colors
+one color forwards, starting at CStart and ending at CEnd. After this,
+use set part palette.
+
+   procedure CycleB(var P : TPalette; CStart, CEnd : Byte);
+Same, but backwards.
+
+   function LoadCOL (FileName : string; var P : TPalette) : ShortInt;
+This loads a .COL file into P. The function returns 0 if load is successful.
+
+   procedure SaveCOL (FileName : string; P : TPalette);
+This saves the palette to .COL file.
+
+The UFX unit includes some more palette stuff, but this is discussed later.
+Make sure you have good understanding of the palettes stuff, 'coz lots of
+the graphix is based on it. When you create a game, it's highly recommended to
+try and keep everything use the same palette, so it won't look like a wooky
+painter's work.
+Look at DemPal1 for an example of palettes fades and cycling.
+NOTE: In UVGA you have 3 constants: PalR, PalG, PalB to represent the
+      palette colors when massing with TPalette. You can also use 1,
+      2 and 3.
+
+
+
+3. Sprites. (Well, what is gameing all about?)
+-----------
+Say you want to create a game. Say you have nice idea and all. Now, you need
+to program the characters of the game, the objects and this stuff. THIS is
+what sprites are for. But let's start at the beginning.
+What is a sprite? It's a picture, of any size in UVGA (up to 256 X 256, but
+you won't use such big ones I guess.) that has the possibility to move, with
+out harming the background. Sprites are basicly squared, but ofcourse the
+picture shouldn't be that way. The trick is, that the parts in the sprite
+that are in color 0 (background color, normally black) are transparent. That
+means nothing will be there, the background won't be erased.
+UVGA includes 2 systems to take care of sprites, the second is more
+comfortable than the first, and smarter. The first needs you to understand
+how it really works.
+First of all, How do you create a sprite? Well, go to your AutoDesk Animator,
+Draw the beautiful picture (or draw it elsewhere, and load a GIF), then get
+in as a CEL (meaning: Cel\Get), and save it to a file (use Cel\Files\Save).
+Just make sure the CEL isn't bigger than 256 X 256 size.
+Let's start with the FIRST (and harder) system. Ignore this if you
+don't understand. Don't use it anyway. It's primitivic. ;-).
+NOTE: In the first system, the sprites are called cels.
+
+(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(
+
+The first system, is inside the UVGA unit. There is a type, TCel, which is
+a record. Some stuff in it, but you have to care 2 things: W and H that
+are Width and Height of the cel. These are READ ONLY. Don't change them!
+So, you have your sprite in a .CEL file. There are 2 ways to use it:
+1. Load the cel from the file, using:
+   procedure LoadCEL (FileName : string; var Cel : TCel);
+When FileName is the name you gave (no procedure in UVGA adds ext. names.
+ALWAYS add them.) Cel is a variable of type TCel.
+
+2. The second way is to Assign a picture (bitmap) to the cel.
+The array is created by the utility CONVERT. Refer to the utils part to learn
+about it. Generally is creates an array. What you have to do is use
+   procedure AssignCel(var Cel : TCel; BMP : array of Byte; W, H : Byte);
+To assign the cel in the first time. CEL is the cel, BMP is the array, and
+W and H are the Width and Height of the cel.
+To create simple animation, use:
+   procedure ReAssignCel(var Cel : TCel; BMP : array of Byte; W, H : Byte);
+to assign the cel again, to a new BMP (of the same size.). Doing this with
+a few pictures, following each other, will create animation.
+
+Ok. Now, you have your picture in the cel. What now? well, naturally, it have
+to be put on the screen. So we have
+   procedure PutCel(X, Y : Word; var Cel : TCel; Where : Word);
+This draws the cel, on the screen (Where).
+Before drawing the cel, it'll be smart to save it's background. How t do
+I do this? I here you calling, so, simply, copy the place where the cel is
+to be, into a virtual screen, and then back to the real screen, When the cel
+is moved. Use CopyPart. About the virtual screen, you can use one of your
+own, or VAddr, but UVGA has a special virtual screen for cels. Use the
+procedure InitCels to initialize it, and then refer to it in the address of
+CelVAddr. When finished, use DoneCels.
+It's very important, when moving more then one cel, to save the screen to
+all of them first, and then move them. Don't save one and move, 'coz it'll
+cause problems.
+I recommend using records of the information (place, direction, speed etc.)
+and put them in arrays. UVGA includes the TCelData type for this.
+And people, take extra place in the direction the sprite moves, so it'll leave
+no marks. Thanks.
+
+The methods for moving N cels will be:
+type
+   Info = record
+      OldX, OldY,
+      X, Y : Word;
+   end;
+var
+   Cels : array[1..N] if Info;
+|
+|
+for I := 1 to N do
+   with Cels[I] do
+      PartCopy(X, Y, X + <Width>, Y + <Height>, VGA, CelVAddr);
+for I := 1 to N do
+   with Cels[I] do begin
+      OldX := X;
+      OldY := Y;
+      Inc(Y, 2); {Just move it...}
+   end;
+for I := 1 to N do
+   with Cels[I] do
+      PutCel(X, Y, <The Cel>, VGA);
+for I := 1 to N do
+   with Cels[I] do
+      PartCopy(OldX, OldY, OldX + <Width>, OldY + <Height>, CelVAddr, VGA);
+etc. etc.
+the program of DemCel1 shows it all.
+The program of DemCel2 shows a much more complicated work of it, and uses
+variables of type TCelData, that UVGA has to make the cels control easier.
+The TCelData type has the place where the cel is, the speed it moves,
+the direction of the movement and the old location plus a variable for max
+frames, and a Boolean for activity. The use of it, is u p to you ONLY. You
+put the cell and take it out as you want. UVGA doesn't include sophisticated
+operations for this.
+
+   TCelData = record
+      OldX, OldY,
+      X, Y : Integer;
+      Speed : Byte;
+      Direction : TDirection;
+      CurFrame : Byte;
+      Active : Boolean;
+      MaxFrames : Byte;
+   end;
+
+   procedure SetCelData(var CData : TCelData; PX, PY : Integer;
+                            Dir : TDirection;
+                            Speed : Byte);
+This will set the data to the data given. I think no explanation is needed.
+Dir is of type TDirection = (Right, Left, Up, Down, NoMove);
+
+   procedure MoveCelData(var D : TCelData);
+This changes the data, according to the Direction variable in it and the
+Speed.
+
+That's all about the first system of sprites. I do not recommend using it,
+if you don't understand how it really works.
+
+- Some more cels stuff:
+   procedure GetCelPalette(FName : string; var P : TPalette);
+Load a palette. Autodesk's .CEL files has an internal palette in them.
+This takes it out to P.
+
+   procedure LoadCelBMP(FName : string; Where : Word);
+Load a cel, as it was in the Animator. Load it, as a picture, to the screen.
+
+(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(-(
+
+The second sprites system: The next generation.
+This is the real sprites system, and is alot easier to use, as it does all
+the process by itself. This system is object oriented and is in the unit
+called USprites.
+There is an object, the basical one, TBaseObj. This isn't for use, but all
+the others are based on it. I suppose you know the basics of objects programing
+so I will not repeat it here.
+Ok. let's go on with the objects.
+The basic sprite object is TSpriteObj. How do you use it:
+- A sprite object must be initialized before using, and must be assigned to
+and array. This is done by:  (these 2 are of TSpriteObj.XXX)
+
+   constructor Init(Xp, Yp : Integer; Dir : TDirection;
+                    Spid : Byte);
+Init a sprite. Set it's first position, the direction it goes and it's speed.
+You can't put it on the screen, until you use:
+
+   procedure AssignArray(var BMPArr; PicNum : Byte; XSize, YSize : Word);
+This assigns an array, which is the BMP, created by CONVERT. You have to
+specify the array, the number of pictures (to use more than one picture, Use
+an array of arrays.) and the width and height of the sprite. (When using more
+than one picture, all of them must be the same size.).
+Now, these sprites are made for animating. Draw nice pictures, and assign
+them. Also can be done with one picture only. Most of the object's methods
+are virtual, but first of all, to put the sprite on the screen, INCLUDING the
+background saving and stuff, use TSpriteObj.OneStep, with no parameters.
+Put this in a repeat look, and look at your screen. Talking of screens, the
+object includes a variable, ScrAddr. This is the screen address, set by default
+to VGA. You can also set this to any virtual screen you want. All said above,
+is for simple moving of a sprite, in one of the four directions, or animating
+in the same place. To create some more sophisticated stuff, (like keys
+controlled, or random directional sprite), You have to replace the methods, by
+creating a child object. Look at the demos DemSpr1, and DemSpr2. The main
+method of a sprite object is:
+
+   procedure TSpriteObj.MoveIt;
+This method is virtual. In the original object it just moves the sprite (yeah,
+as simple as possible, change the X and Y values of the sprite). note that
+when rewriting this method, it's recommended to use the inherited method also,
+and add your own one. Anyway, always when changing it without the inherited,
+make sure you put BEFORE the changing: OldX := X; OldY := Y; If you want to
+move the sprite is an unconvential way (like in DemSpr1), set it's direction
+to NoMove, and MoveIt will ignore it.
+
+Say you've created a sprite, and you don't want it to run through the pictures
+one by one, (look at the PopCorn demo), you have to rewrite also:
+
+    procedure TSpriteObj.NextFrame;
+which is the one responsible of this. Simply write an empty procedure. The
+variable CurFrame is the current frame. Use it to change the frames when
+needed (Yeah, simply CurFrame := 5, and then OneStep).
+
+To change the current frame (read: BitMap) by yourself, use SetFrame procedure,
+with one parameter - the frame's number. The number must be in the range of 1
+to the number of frames.
+To remove a sprite from the screen, use it's procedure Remove.
+
+NOTE: The sprites take memory, each one only for ONCE it's size, 'coz the
+BMP's are already there. that means, you can Init more than one sprite to the
+same BMP without re-allocating the memory for all of the BMP's. The only
+memory a sprite allocates, is for the background. This memory is taken from
+the Heap ofcourse.
+
+Another type of sprite is TFourDirSpriteObj. This is a child of TSpriteObj,
+and is used for, as you probably can guess, creating sprites that moves to
+four directions, and with every direction there are different pictures.
+This object is used just like the TSpriteObj, but the Direction variable
+effects the picture automaticly. To assign the frames to it use:
+   procedure   AssignArray(var R, L, U, D;
+                           PicNum : Byte; XSize, YSize : Word); virtual;
+R, L, U and D are the arrays, one for Right, Left, Up and Down. Look at the
+DemSpr2 demo for an example of using it.
+
+The next object declared in USprites is TStampObj. This is just a picture,
+ONE picture, no animation, that stands at the background. To initialize it
+use:
+   constructor TStampObj.Init(Xp, Yp : Integer; var Pic; Wp, Hp : Word);
+Xp, Yp - place on the screen. Pic - the bitmap. Only one bitmap is used.
+Wp and Hp -  Width and Height.
+To put this stamp on the screen use it's Stamp procedure, and to remove, use
+Remove. When removing, the background is changed.
+When you're finished with a sprite or a stamp, of any kind, it's a wise step
+to call the destructor method Done, to free the memory taken.
+
+All said above, is true when you need to run ONE sprite on the screen. When
+using 2 sprites or more, the situation is different. You still should write
+child objects to the sprites and all this stuff, but using OneStep for each
+sprite will be a wrong step, and cause problems.
+Foe this purpose there is the TFormObj, which is to move the whole thing.
+This object as some methods you should know:
+
+   constructor TFormObj.Init(Num : Byte);
+Num is the number of sprites you're about to use it the form. (BTW, I don't
+know why is the name form, It's just it.) Don't EVER use a form before
+initializing it. The maximum number of sprites in one form, is 256. (and it'll
+be S-L-O-W.)
+
+   procedure TFormObj.AddObject(var Obj : TBaseObj);
+This is the smart part. You add your object to the form, and 'couse the
+whole system is based on TBaseObj, you can eaither have TSpriteObj, TStampObj,
+or any children ( :-) ) you've created.
+
+   procedure TFromObj.DoStep;
+This is like a sprite's OneStep, but it's working for all of the sprites
+you've put in the object. Note that the object doesn't copy the object when
+you call AddObject, it uses the one you declared. That means that any changes
+to the object's variables, will really change it.
+
+   procedure TFormObj.ChangeBackGround;
+If You want to change the background while the sprites are moving, write a
+new form object - child of TFormObj, and put the part of background change in
+this method. By default, it does nothing.
+
+   destructor TFormObj.Done;
+Call this when done with the form.
+
+4. Keys handling.  (The keyboard is there to get parts of my cake.)
+-----------------
+The keyboard, is the most basic input device of the computer. You can find
+lots of computer without a joystick or a mouse, but there is no computer with
+no keyboard.
+The keyboard handler in the BIOS, and the CRT unit that uses it, provides
+a pretty good interface for keyboard manipulating, but that's not enough for
+games, mainly because it can't be used to detect more than one keypress at
+a time. Also the annoying BEEP every time a key is pressed too long and the
+keyboard's buffer is full it stupid.
+So, UVGA gives you the solution: the UKeys unit. UKeys main part is an array,
+name Pressed. This is a Boolean array, and every key has a number in it's
+index. To check wherever a key is pressed, use:
+   if Pressed[1] then Halt;   {1 is ESC.}
+or, more recently,
+   if Pressed[kEscape] then Halt;
+Before using this, you must install the system, so use SetKeys.
+After using it, no Ctrl+Alt+Del will work, and no Ctrl+Break also, so do it
+as close as possible for the time using it, and don't forget to restore the
+system when done, with SetOldKeys. I think the user will thank you for not
+leaving him with a nice DOS, without the possibility to do anything.
+
+UKeys declare constants for the keys. The letters are simply k + Letter
+(E.G. kA for A, no different capital or small). The other keys are k + the
+key's name. ESC is kEscape, Left shift is kShl, Alt is kAlt etc.
+Every key can be detected, including the control, Alt, shift and the locks.
+About the locks (CapsLock, ScrollLock and NumLock) Pressed returns True
+when the key is pressed, not when it's locked (the little light on :-) ).
+About capital letters: UKeys detects keys, not chars. This way, detecting
+a capital a should use:
+   if (Pressed[kA] and ((Pressed[kShl) or (Pressed[kShr]) then ....
+This detects an A, plus one of the shifts.
+That way, with the array, you can detect multiple key presses. It can be done
+either in one command or in two. For example:
+   if Pressed[kControl] then JumpPlayer1;
+   if Pressed[kShr    ] then JumpPlayer2;
+will work when Ctrl is pressed, OR when Right shift is pressed, or when both
+of them are. BUT:
+   if (Pressed[kControl]) and (Pressed[kAlt]) then Shoot;
+will work only when both of them are pressed.
+Ofcourse, your'e not limited to 2 keys.
+This will also work:
+   if (Pressed[kAlt]) and (Pressed[kControl]) and (Pressed[kDelete]) then
+      Reboot;
+In the UKeys unit there are three other variables you should know about:
+
+   PressedKey : Boolean;   {Is a key pressed?}
+   TheKey     : Byte;      {What is the last key pressed\released?}
+   Action     : (Press, Release); {And what happened to it?}
+
+
+NOTE: In some cases when the program was executed by pressing Ctrl + F9, and
+      Ctrl was pressed when the SetKeys procedure was called, After the
+      program finishes Ctrl is still pressed, even that it's not. Just press
+      is again to fix it.
+
+5. Fonts.  (Oh, without fonts you couldn't read this!)
+---------
+Fonts, are one of the first things a game or an intro shows, so they better
+look good.
+UVGA includes the UFonts unit, providing support to 3 sizes of ROM fonts in
+the VGA, support for Binary fonts (Create them with FontMania if you want
+or don't create them at all) and a special font file format of UVGA, that
+is created using the FontEdit.EXE program, (Will be explained in the utilities
+part, later) and can be any size, from 1 X 1 to 16 X 16.
+The size of the current font is in two variables: XSize and YSize, of type
+Byte.
+Let's start. For using the fonts system of UVGA, and because it takes some
+memory (in the heap), you must first allocate the memory for it, using
+   procedure InitFonts;
+
+When done with fonts, let the memory go and play in another place, using
+   procedure DoneFonts;
+
+Initializing the fonts system isn't enough for using the fonts. What is also
+needed, is to get a font from somewhere. The easiest way doing it, it to use
+the VGA's ROM fonts, by calling:
+   procedure SetROMFont(Fnt : Byte);
+
+This procedure takes a parameter, and UFonts has 3 constants for it:
+   fnt8X8  - Will initialize the ROM 8 x 8 font. This font is much like
+             the normal for seen when using CRT's write in graphics mode.
+   fnt8X14 - Will initialize the 8 x 14 font.
+   fnt8X16 - will initialize the 8 x 16 font.
+
+For example, to use the ROM font 8 X 16 (the best ROM font) command:
+   SetROMFont(fnt8X16);
+
+You can load a binary font (such as FontMania's fonts 8 X 16) in the size of
+8 X 16 (4096 sized files). Use:
+   function LoadFMFont(FName : string) : ShortInt;
+This function returns 0 if the load was successful, -1 if the files wasn't
+found.
+
+To load a font file created with the font editor of UVGA, use:
+   function  LoadFont(FName : string; var P : TPalette;
+                      SetPal : Boolean) : ShortInt;
+This loads FName, and returns the font's palette into P. If SetPal is
+true, the palette will also be automaticly set to the real palette.
+
+Ok. Now we have a font loaded to memory. To use it:
+   procedure DrawChar(Ch : Char; X, Y, Where : Word);
+
+This draws one character (Ch) in the place X, Y, on screen Where.
+
+   procedure WriteStr(Str : string; X, Y, Where : Word);
+WriteStr writes the whole string.
+
+There are 2 important things about fonts.
+1. Color 0, is transparent, the background stays under the font.
+2. UFonts includes a Boolean variable, called UseCurrent. When It is set to
+   true, Color number 255 is the font is drawn in CurrentColor. Note that
+   both the ROM fonts and FontMania's fonts uses this to change color. When
+   UseCurrent is set to false, color 255 is normal.
+
+   procedure DrawRow(Str : string; X, Y : Word; Row : Byte; Where : Word);
+This procedure draws to the screen only one row (horizontal) of the string.
+useful for scrollers (In this case, vertical scrollers). The row to draw
+is specified in Raw, and shouldn't be more the YSize.
+
+   procedure DrawCol(Ch : Char; X, Y : Word; Col : Byte; Where : Word);
+This draws a column of the character. For horizontal scrollers. Look at
+DemFon1 for an example.
+
+6. PCX and RAW files.  (Magic Intros made them. The best!)
+---------------------
+UVGA supports 2 file formats for pictures: RAW format and PCX format.
+The procedures and functions to load and view these formats, are in the URaw
+and UPCX units.
+ - Let's start with Raw images.
+
+   function RAWOk(FName : string) : ShortInt;
+This function returns 0 if the raw is the right format, 'couse the only
+format UVGA supports is 320 X 200 X 256c raw files.
+Error codes returned by the function:
+  -1 - File not found.
+   0 - Ok.
+   1 - Image size is not 320 X 200.
+   2 - Not a RAW file, or header is damaged.
+
+
+   function RAWLoad(FName : string; var P : TPalette; SetPal : Boolean;
+                    Where : Word) : ShortInt;
+This is the real work, loading the raw to the screen. RAW files has an
+internal palette, that is returned to P. If SetPal is true, the palette is
+also set to the current palette.
+
+   function GetRAWPalette(FName : string; var P : TPalette) : ShortInt;
+This function returns the palette of a RAW file, into P. For the speed, this
+function doesn't check to verify whenever the RAW is ok, and returns only 2
+values:
+   -1 - File not found.
+    0 - Ok.
+
+For example, to check for a raw file, and load it:
+   if RAWOk(FileName) <> 0 then Halt;
+   RAWLoad(FileName, P, True, VGA);
+
+ - And now: PCX's.
+
+This is much the same as RAW stuff, in one difference in the error codes.
+UVGA supports PCX's of 320X200X256c - Version 5 ONLY. The PCXOk procedure has
+different error codes:
+
+   function PCXOk(FName : string) : ShortInt;
+  -1 - File not found.
+   0 - Ok.
+   1 - Image size is not 320 X 200.
+   2 - Not a PCX, or file is damaged.
+   3 - Version isn't 5.
+
+   function PCXLoad(FName : string; var P : TPalette; SetPal : Boolean;
+                    Where : Word) : ShortInt;
+  -1 - File not found.
+   0 - Ok.
+   1 - Not enough memory.
+
+
+   function GetPCXPalette(FName : string; var P : TPalette) : ShortInt;
+   Just like the PCXOk codes.
+
+That's it. Look at DemPic1 for an example of viewing PCX and RAW files.
+
+7. Resource files.  (Hmmm. Nothing to write for it.)
+------------------
+Resource files are used when you have a big game or demo, that uses alot of
+data files, graphics images and stuff. So, with resource files you can put
+all of this, in one big file, and with one simple command extract the file
+you need, use it and erase it. More than it, You can put the resource file
+at the end of the main EXE file of the program, and open the files from the
+EXE itself. UVGA includes a utility called Resources. (Actually the file's
+name is RESOURCE.EXE...) Look at the utilities chapter for details. We here
+talk about resource files you already created.
+So, you have your game, and you created a resource file (I highly recommend
+to first develop all normally, and after everything works, add the resource
+file support), now you want to use it.
+The unit providing all of it, is UResFile. To basicly restore a file from
+a resource file, use:
+
+   function RestoreFile(ResFName : string; FName : TFileName) : ShortInt;
+This restores a file, and writes it to the disk. ResFName is the name of
+the resource file, and FName is of type TFileName = string[12], 'couse the
+resource files doesn't have path's inside. The file name has to be
+FileName.Ext only.
+Error codes returned by RestoreFile:
+  -1 - ResFName no found.
+   0 - Successful.
+   1 - ResFName is not a resource file, or is damaged.
+   2 - FName not found inside ResFName.
+
+   function FindFile(ResFName : string; FName : TFileName) : ShortInt;
+This is to find a file inside a resource file. 0 is returned if FName exist
+inside ResFName. Error codes:
+  -1 ResFName not found.
+   0 Successful.
+   1 ResFName isn't a resource file or is damaged.
+   2 FName not found inside ResFName.
+
+   function EraseFile(FName : string) : ShortInt;
+EraseFile well, just erases the file. After you finished using it, erase it
+from the disk.
+
+For example, You want to restore the file MYGAME.COL from the resource file
+MYGAME.DAT. You put in the program:
+   if RestoreFile('MYGAME.DAT', 'MYGAME.COL') <> 0 then begin
+      Writeln('ERROR!');  {Restore the file}
+      Halt;
+   end;
+   LoadCOL('MYGAME.COL', P);   {Use it, }
+   EraseFile('MYGAME.COL');   {And erase.}
+
+Remember! Never leave files on the disk after they have no use. Most of the
+users won't like finding palettes and pictures on the disk after running a
+game.
+
+Now, If you want to add the resource file to the end of the EXE file, just
+do it, as simple as possible. But first, write down somewhere the size of the
+original resource file.
+To add the file to the EXE, use DOS's copy.
+for example, to Add MYGAME.DAT to MYGAME.EXE just type:
+   C:\> Copy MyGame.EXE + MyGame.Dat
+And that's it. Don't forget to do this after every time you compile the
+program.
+To restore a file from the resource file which is in the EXE (gee..) use:
+
+   function RestoreFileFromEXE(ResFName : string; FName : TFileName;
+                               OrigSize : LongInt) : ShortInt;
+ResFName in the resource file name, FName is the file name to restore from it
+and OrigSize is the size of the resource file. Use it just like the normal
+one.
+Error codes:
+  -1 - ResFName no found
+   1 - ResFName is not a resource file, or is damaged - Not so relevant...
+   0 - Successful
+   2 - FName not found in ResFName
+
+function FindFileInEXE(ResFName : string; FName : TFileName;
+                       OrigSize : LongInt) : ShortInt;
+This is to find a file in an EXE file. Understand it by yourself.
+Error codes:
+  -1 ResFName not found.
+   0 Successful.
+   1 ResFName isn't a res file or is damaged.
+   2 FName not found.
+
+That's about resource files.
+
+8. Using mouse   (Watch out Mickey!)
+--------------
+UVGA includes the UMouse unit to control the mouse. That's an easy part, and
+the mouse control is object oriented.
+The UMouse unit has an object to control the mouse, and a variable of type
+PMouseObj - a pointer - so you don't have to declare your own variable for
+that.
+
+   PMouseObj = ^TMouseObj;
+   TMouseObj = object
+      X, Y     : Word;  - place of the pointer last time updated.
+      ButState : Word;  - the buttons' state.
+      But      : Word;  - number of buttons.
+
+      function  Installed : Boolean;
+                 - Check if a mouse is installed.
+      function  Reset : Boolean; - Reset the mouse. True if successful.
+      procedure Show;     - Show the mouse's pointer. By default, there is an
+                            arrow in white.
+      procedure Hide;     - Hide the mouse's pointer. Just turn is off.
+      procedure GetPlace; - Update X, Y and ButState with the current
+                            values.
+      function  RightPressed : Boolean;   - True if right button is pressed.
+      function  LeftPressed : Boolean;    - True if left button is pressed.
+      function  MiddlePressed  : Boolean; - True if middle button is pressed.
+      function  GetX : Word; - Mouse's X point.
+      function  GetY : Word; - Mouse's Y point.
+   NOTE: the above 5 functions doesn't need a call to GetPlace before
+         using them.
+
+      procedure SetPlace(X, Y : Word); - Set the pointer's place to X, Y.
+      procedure SetBorder(X1, Y1, X2, Y2 : Word);
+                  - Set a limit to the mouse movements. Can't be moves
+                    beyond X1, Y1 - X2, Y2.
+      procedure SetSpeed(H, V : Word);
+                  - Set the mouse's sensitivity. H - horizontal,
+                    V - vertical.
+      procedure SetShape(HotX, HotY : Word; Shape : TMouseShape);
+                  - Set the pointer's shape, while TMouseShape is the type
+                    used by PEdit (UVGA's mouse shape editor) when saving
+                    to Pascal format. Look at the utils chapter for details.
+                    HotX and HotY are the Hot-Spot place, the place where the
+                    mouse points to. (The pointer is 16 X 16 pixels).
+so, for example, to view the pointer, until the left button AND the right
+button are both pressed, you would do:
+
+uses
+   UVGA, UMouse;
+begin
+   SetVGA;
+   Mouse^.Show;
+   repeat until (Mouse^.RightPressed) and (Mouse^.LeftPressed);
+   SetText;
+end.
+
+for examples,  look at DemMos1 and DemMos2.
+
+9. Graphical Effects.  (We have some nice..)
+---------------------
+UVGA includes (I'm getting sick of this line!) a unit called UFX, to create
+effects. Ofcourse you can create your own effects, but UFX gives you some nice
+palette effects, and star fields.
+Let's start with stars. There are 2 objects for creating star fields. The
+first one is for creating Star-Trek style, Meaning start that goes from you
+to the center of the screen, Inside, or from the center of the screen outside
+to you. The object for these is TStarsObj.
+What you have to know about it:
+   TStarsObj = object
+      Speed : Byte;    -  the speed of the stars
+      Wait,            -  the delay after each step
+      Scr   : Word;    -  the screen the stars are drawn to. VGA by default.
+      Fd    : Boolean; -  Forward = TRUE \ Backwards = FALSE. Where do the
+                          stars go.
+      procedure Init(Max, Dep, CenterX, CenterY : Word);
+                 - Initialize the object, and set: Max = number of stars,
+                   Dep = Maximum depth they reach, CenterX and CenterY are
+                   the point where the stars disappear, or re-appear, depends
+                   of the direction of movement.
+      procedure SetLimit(X1, Y1, X2, Y2 : Integer);
+                 - There is an option to limit the stars to a rectangle,
+                   (By default it's the screen), by specifying X1, Y1 to
+                   X2, Y2 of the box.
+      procedure FirstStep;
+                 - Calculate stuff and draw for the first time.
+      procedure OneStep;
+                 - Draw again, for any step. Put this in a repeat loop.
+      procedure Done;
+                 - When finished, call this to let free some memory.
+   end;
+
+Next type of star field is stars, moving in one of 4 directions, in 3
+overlays of stars. That means that the stars at the top moves faster than
+the far ones. When using also 3 different colors for them, you can create
+an illusion of 3D stars.
+
+   TStarFieldObj = object
+      Direction : TDirection; - Direction where the stars move. Right,
+                                Left, Up or Down.
+      Scr   : Word; - Screen address to draw the stars.
+
+      procedure Init(Max : Integer; C1, C2, C3 : Byte);
+                 - Initialize the stars. Max is the number of stars, and
+                   C1, C2, C3 are the colors for the 3 speeds of stars.
+      procedure SetLimit(X1, Y1, X2, Y2 : Integer);
+                 - Limit the stars to a rectangle, X1, Y1 - X2, Y2.
+      procedure OneStep;
+                 - This draws the stars, moves them and does all that is
+                   needed. Put in a repeat loop.
+      procedure Done;
+                 - Finito.
+   end;
+
+NOTE: Both stars objects take memory of the heap, leaving the stack for
+      your variables. Don't forget to call Done after finished.
+
+Enough with stars. Let's talk about some palette effects.
+UFX has a procedure for creating palettes, that are like the original,
+but in one color. That allows you to create an Old-Fashioned picture in
+black and white, or to create a picture in red, green or blue.
+
+   procedure GenerateScaledPalette(var P : TPalette; Scale : Byte);
+This procedure does the work, taking and returning P as a palette. Just run
+this procedure and then use SetCurrentPalette to activate the new palette.
+Scale tells the procedure what kind of color scale to create:
+   0 - Black & White.
+   PalR - Red.
+   PalG - Green.
+   PalB - Blue.
+
+The next effect is kind of complicated. Let's say you have a picture on the
+screen, of the opening screen of your game, and you want to move to a
+picture saying: BY ME! in big letters and all this. You drew the pictures,
+and saved them and all this, but you don't want to just BOOM! from one to
+the other. So, use Cross-Fade. Cross fade is used to create one picture,
+and 2 palettes, so you can simply fade from one to the other. The picture
+created, is a combination of the 2. To create a Cross Fade use:
+
+function CreateCrossScreen(Scr1, Scr2 : Word;
+                           P1, P2 : TPalette;
+                           var Src, Dest : TPalette;
+                           Where : Word) : ShortInt;
+
+Cool off. It's not so hard.
+Scr1 and Scr2 are the screens includes the 2 pictures to use. P1 and P2 are
+the palettes, the first for the picture in Scr1, and the second for the
+picture in Scr2. Src and Dest are the 2 palettes you will have to fade from
+and to, and Where is the screen to create the cross faded screen on. (Yeah,
+you have to use 3 virtual screens. (actually 2, plus VGA) ).
+So, put a nice picture on VGA, load another to VAddr and initialize another
+screen (You can use CelVAddr). Now, get the palette from the picture on VGA
+and the palette from the picture on VAddr and call:
+ CreateCrossScreen(VGA, VAddr, PalOfVGA, PalOfVAddr, Source, Dest, CelVAddr);
+Pfjew...
+Now, as fast as you can, copy CelVAddr to VGA, and Change the current palette
+to Source. This will have a little blinking, but who cares.
+Release the memory for any virtual screen you don't need now.
+To really fade, use:
+
+   procedure CrossFade(Src, Dest : TPalette);
+Just pass the source and destination palettes and it will fade nicely.
+DemPal1 show it all.
+
+NOTE: CreateCrossScreen is a function. Returns 0 if successful, 'couse it might
+      not be. If you use pictures with alot of colors, it might not work. In
+      this case use AutoDesk Animator's Palette\Squeeze command.
+
+
+10. Buffers.  (boring but useful stuff.)
+------------
+Buffers are used to get faster disk excess. The fact is that in most programs that use lot's of
+files reading, the file excess slows the working. That's what the buffers are
+for, 'couz the fastest way to excess to disk is to avoid it as much as
+possible.
+Using the UBuffers unit, and the TBufferObj object you can use a buffer for
+an untyped file, just as using a file. The working is transparent for you as
+a programer. All disk manipulating is done by the object's methods.
+Here we go:
+   TBufferObj = object
+      MaxPos,              - Size of the file.
+      PosInFile : LongInt; - Current position in the file (Like FilePos for
+                             a normal file).
+
+      constructor Init(FName : string; Sz : LongInt; var Err : ShortInt);
+                   - Initialize the object, FName is the file the buffer
+                     should be assigned to, Sz is the size of the buffer
+                     and Err returns an error code:
+                       -1 - File not found.
+                        0 - Ok.
+                        1 - No enough memory.
+                        2 - Buffer is set to size 0.
+                     The bigger the buffer's size is, the least disk excess
+                     will occur, and the working will be faster. BUT, also
+                     more memory is taken.
+
+      procedure   ResetBuffer;
+                   - Like Resetting a file. It's not needed after a call to
+                     Init. Just if you want to re-read from the beginning.
+      procedure   SeekTo(Pos : LongInt);
+                   - Seek to a position in the file (NOT in the buffer, in
+                     the file. If buffer reading is needed, it's done). Just
+                     like Seek(F, Pos) for a normal file.
+      procedure   GetBlock(var Buf; Count : Word);
+                   - Like BlockRead. Move Count bytes from the file into Buf.
+      destructor  Done;
+                   - Don't forget it when finished. Releases all the memory
+                     taken by the buffer.
+   end;
+
+----------------------------------------------------------------------------
+Well well - we've covered all of the units... Let's move to:
+----------------------------------------------------------------------------
+
+11. Utilities.  (What do you know - font's, res. files etc.)
+--------------
+With UVGA comes 4 utilities:
+
+   RESOURCE EXE - Resourcer. THE program to create resource files.
+   CONVERT  EXE - Conversion utility. Convert's .CEL files to Pascal consts.
+   PEDIT    EXE - Editor to a mouse pointer.
+   FONTEDIT EXE - Editor to fonts in UVGA format.
+
+   Resourcer:
+   ----------
+   The part of handling resource files from the program was explained in
+   details in the 7th chapter. This part will explain how to create them and
+   manage the file itself. In the DOS prompt, run RESOURCER. (Also RESOURCE
+   is enough, because 8 chars is the maximum :) ). In the mail menu, there
+   are 3 selections: New File, Add and Delete.
+   - New File:
+     This creates a new resource file. First you have to select a file, or
+     type a name. If the file exist, you will be asked to overwrite it. Then,
+     type in a file mask to select from. Valid masks can be: *.CEL; *.PCX in
+     one line. After it, select the files by tagging them with SPACE. ENTER
+     or F10 finishes and moves you to a window showing the progress.
+     That's it.
+   - Add:
+     This option is to add a file into an existing resource file. First select
+     a resource file, and then select a file to add to it. This time you
+     don't tag the file, just highlight it and press ENTER.
+   - Delete:
+     This option deletes a file from a resource file. Select a resource file
+     and get a list of the files in it. Highlight the file to delete and
+     press ENTER. Confirm or cancel the deletion.
+
+   Convert:
+   --------
+   Lode it by typing Convert at the DOS prompt. The fill in the details:
+   Disk file name, Unit name (First 8 characters should be the same like in
+   the file's name), and them fill in each of the 5 lines: A CEL file name,
+   and the variable name to put it in. F10 will finish it and create the unit
+   (assuming all the files exist and everything is ok). Compile the unit with
+   the normal Pascal compiler.
+
+   PEdit:
+   ------
+   Use this to create mouse pointers, and save as Pascal unit or as a normal
+   file. After running the program you have a grid at the leftmost side on
+   which you draw the pointer, when each box represents a pixel in reality.
+   The edited pointer is shown in the side, and the real mouse's pointer is
+   on the screen too.
+   Look at the help for all the options (F1). In general, setting a pixel to
+   white in the pointer is done with space, setting to transparent is done
+   with the DEL key, setting to black (Green in the real screen, black when
+   used as a pointer) is by pressing B and setting to Negative (Red on the
+   screen, Real color depends on the color under the pointer) in by pressing
+   N. To save as a binary file (Good only for later editing) use F2, and F3
+   to load. F6 saves as a Pascal file, after asking you to type the file and
+   a variable name.
+   F4 sets the edited shape to the real one, and let's you see the results of
+   your work. F5 gives back the good old arrow.
+   ENTER sets a pixel to the hotspot. This is the point where the mouse
+   points to, and with the default arrow it's the top left pixel.
+   Look at the help screen for some more options.
+
+   FontEdit:
+   ---------
+   This is the UVGA font editor. Saves files to the UVGA format, and creates
+   bitmapped fonts in 256 colors. Again, the editing is done on the grid, and
+   the result is shown at the right side of it. A box shows the current color
+   used. Use SPACE to set a box (and a pixel) to the color, and DEL to set it
+   to color 0. F6 shows a colorful box and lets you select the color. You edit
+   one character per time. To change the edited character, Press TAB or ENTER
+   to select the character. Characters 7 - 15 are not available to edit. Use
+   PgUp and PgDn to move to the next or the previus character.
+   F2 saves the current font to a file, F3 loads a file, F4 lodes a palette
+   file, so you can see how you font will look like, and F5 changes the font's
+   size. The sizes must be between 1x1 to 16x16.
+
+⁄ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒø
+≥That's it! I hope I explained everything. Please, if *ANYTHING* is not ≥
+≥understood - Call me, get me via mail, contact me. (Contact me anyway).≥
+≥If I won't get responding, no next version(s) will come out.           ≥
+¿ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒŸ
